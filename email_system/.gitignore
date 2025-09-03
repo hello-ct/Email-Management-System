@@ -1,0 +1,9 @@
+mailapp/__pycache__
+*.py[cod]
+*$py.class
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
