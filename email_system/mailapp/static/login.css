@@ -1,0 +1,111 @@
+
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2); /* same as register */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container styling */
+.container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+/* Heading */
+h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+/* Messages */
+.messages {
+    list-style: none;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+
+.messages li {
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.messages li.error {
+    background-color: #ffe6e6;
+    color: #cc0000;
+}
+
+.messages li.success {
+    background-color: #e6ffed;
+    color: #007f3f;
+}
+
+/* Form groups */
+.form-group {
+    text-align: left;
+    margin-bottom: 1rem;
+    margin-right:1rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+}
+input:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+/* Button styling */
+.btn {
+    background-color: #667eea;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #5a67d8;
+    transform: translateY(-2px);
+}
+
+/* Links */
+.links {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.links a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}

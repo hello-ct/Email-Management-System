@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose Email - Email Management System</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Compose</h1>
+        <nav>
+            <a href="{% url 'inbox' %}">Inbox</a>
+            <a href="{% url 'sent' %}">Sent</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <form method="post" action="{% url 'compose' %}">
+            {% csrf_token %}
+            
+            <!-- Recipient Dropdown -->
+            <div class="form-group">
+                <label for="recipient">Recipient:</label>
+                <select id="recipient" name="recipient" required>
+                    {% for user in users %}
+                        {% if user != request.user %}
+                            <option value="{{ user.username }}">{{ user.username }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Subject Field -->
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+            </div>
+
+            <!-- Body Field -->
+            <div class="form-group">
+                <label for="body">Message:</label>
+                <textarea id="body" name="body" rows="5" placeholder="Write your message..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Send</button>
+        </form>
+    </main>
+</body>
+</html>

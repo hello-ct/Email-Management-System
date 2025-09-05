@@ -11,38 +11,57 @@ from .models import Email
 
 # Login view
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect('inbox')
-        else:
-            messages.error(request, 'Invalid credentials')
-    return render(request, 'mailapp/login.html')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "You have successfully logged in!")
+            return redirect("inbox")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        # ✅ Clear messages explicitly
+        storage = messages.get_messages(request)
+        for _ in storage:
+            pass  # Consume all messages so they don't show again
+
+    return render(request, 'mailapp/login.html')
+    
 # Logout view
 def logout_view(request):
+    # ✅ Log the user out
     logout(request)
+
+    # ✅ Flush session completely (clears all messages too)
+    request.session.flush()
+
     return redirect('login')
+
 
 # Register view
 def register_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        if password != password2:
-            messages.error(request, "Passwords do not match")
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+
+        # Validate input
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
         elif User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
+            messages.error(request, "Username already exists.")
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, "Email already registered.")
         else:
-            user = User.objects.create_user(username=username, email=email, password=password)
+            # Create new user
+            user = User.objects.create_user(username=username, email=email, password=password1)
             user.save()
-            messages.success(request, "Registration successful. Please login.")
-            return redirect('login')
+            messages.success(request, "Registration successful! Please login.")
+            return redirect("login")
     return render(request, 'mailapp/register.html')
 
 # Forgot password view
@@ -89,31 +108,53 @@ def reset_password_view(request, uidb64, token):
         return render(request, 'mailapp/reset_password.html')
     else:
         messages.error(request, 'Invalid reset link.')
-        return redirect('forgot_password')
+        return redirect('mailapp/forgot_password')
 
 # Inbox view
 @login_required
 def inbox_view(request):
-    emails = Email.objects.filter(recipients=request.user).order_by('-timestamp')
-    return render(request, 'mailapp/inbox.html', {'emails': emails})
+    emails = Email.objects.filter(recipient=request.user).order_by("-timestamp")
+    return render(request, "mailapp/inbox.html", {"emails": emails})
 
 # Sent view
 @login_required
 def sent_view(request):
-    emails = Email.objects.filter(sender=request.user).order_by('-timestamp')
-    return render(request, 'mailapp/sent.html', {'emails': emails})
+    sent_emails = Email.objects.filter(sender=request.user).order_by("-timestamp")
+    return render(request, 'mailapp/sent.html', {'sent_emails': sent_emails})
 
 # Compose view
 @login_required
 def compose_view(request):
-    if request.method == 'POST':
-        recipients_usernames = request.POST['recipients'].split(',')
-        subject = request.POST['subject']
-        body = request.POST['body']
-        recipients = User.objects.filter(username__in=[r.strip() for r in recipients_usernames])
-        email = Email.objects.create(sender=request.user, subject=subject, body=body, is_sent=True)
-        email.recipients.set(recipients)
-        email.save()
-        messages.success(request, 'Email sent successfully.')
-        return redirect('sent')
-    return render(request, 'mailapp/compose.html')
+    if request.method == "POST":
+        recipient_username = request.POST.get("recipient")
+        subject = request.POST.get("subject")
+        body = request.POST.get("body")
+
+        try:
+            recipient = User.objects.get(username=recipient_username)
+        except User.DoesNotExist:
+            messages.error(request, "Recipient does not exist.")
+            return redirect("compose")
+
+        Email.objects.create(
+            sender=request.user,
+            recipient=recipient,
+            subject=subject,
+            body=body
+        )
+        messages.success(request, "Email sent successfully!")
+        return redirect("sent")
+
+    users = User.objects.all()
+    return render(request, 'mailapp/compose.html', {"users": users})
+
+def view_email(request, email_id):
+    from django.shortcuts import get_object_or_404
+    email = get_object_or_404(Email, id=email_id)
+
+    # Only allow sender or recipient to view the email
+    if email.sender != request.user and email.recipient != request.user:
+        from django.http import HttpResponseForbidden
+        return HttpResponseForbidden("You are not allowed to view this email.")
+
+    return render(request, "mailapp/view_email.html", {"email": email})

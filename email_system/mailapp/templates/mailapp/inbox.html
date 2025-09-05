@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+</head>
+<body>
+<header>
+    <h1>📩 Inbox</h1>
+    <nav>
+        <a href="{% url 'compose' %}">Compose</a>
+        <a href="{% url 'sent' %}">Sent</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</header>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for email in emails %}
+            <tr>
+                <td>{{ email.sender.username }}</td>
+                <td>
+                    <a href="{% url 'view_email' email.id %}" class="subject-link">
+                        {{ email.subject }}
+                    </a>
+                </td>
+                <td class="email-date">{{ email.timestamp|date:"M d, Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="text-align:center; padding:20px; color:#888;">
+                    No emails in your inbox.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

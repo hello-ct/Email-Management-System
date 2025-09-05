@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Email</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+</head>
+<body>
+<header>
+    <h1>📧 View Email</h1>
+    <nav>
+        <a href="{% url 'inbox' %}">Inbox</a>
+        <a href="{% url 'sent' %}">Sent</a>
+        <a href="{% url 'compose' %}">Compose</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</header>
+
+<div class="view-email-container">
+    <h2>{{ email.subject }}</h2>
+
+    <div class="email-meta">
+        <p><strong>From:</strong> {{ email.sender.username }}</p>
+        <p><strong>To:</strong> {{ email.recipient.username }}</p>
+        <p><strong>Date:</strong> {{ email.timestamp|date:"M d, Y H:i" }}</p>
+    </div>
+
+    <div class="email-body">
+        {{ email.body }}
+    </div>
+</div>
+
+</body>
+</html>

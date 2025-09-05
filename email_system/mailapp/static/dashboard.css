@@ -1,0 +1,333 @@
+/* ==== General Reset ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f8f9fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==== Header / Navbar ==== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    color: white;
+}
+
+header h1 {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ==== Main Container ==== */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+/* ==== Card Style ==== */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+/* ==== Inbox & Sent List ==== */
+.email-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s ease-in-out;
+}
+
+.email-item:hover {
+    background: #f4f4ff;
+}
+
+.email-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.email-info strong {
+    font-size: 1rem;
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.email-info small {
+    color: #555;
+    font-size: 0.85rem;
+}
+
+.email-time {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+/* ==== Inbox / Sent Table ==== */
+.table-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f3f9;
+}
+
+th, td {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 15px;
+}
+
+th {
+    font-weight: 600;
+    color: #333;
+}
+
+tr {
+    transition: background 0.2s ease-in-out;
+}
+
+tr:hover {
+    background: #f6f7ff;
+}
+
+/* Subject Links */
+.subject-link {
+    color: #4f46e5;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.subject-link:hover {
+    text-decoration: underline;
+}
+
+/* Date Styling */
+.email-date {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ===== View Email Page Styling ===== */
+.view-email-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Subject (Email Title) */
+.view-email-container h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1e1e2d;
+    text-align: center;
+}
+
+/* Email Metadata (From, To, Date) */
+.email-meta {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.email-meta strong {
+    color: #1e1e2d;
+}
+
+/* Email Body */
+.email-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    background: #f9fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Subtle fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==== Compose Form ==== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    width: 100%;
+}
+
+label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+select[name="recipient"],
+input[name="subject"],
+textarea[name="body"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease-in-out;
+}
+
+select[name="recipient"]:focus,
+input[name="subject"]:focus,
+textarea[name="body"]:focus {
+    border-color: #4f46e5;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+textarea[name="body"] {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ==== Buttons ==== */
+button,
+.button-link {
+    display: inline-block;
+    text-align: center;
+    padding: 12px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+button:hover,
+.button-link:hover {
+    background: #4338ca;
+}
+
+/* ===== Sent Emails Page Styling ===== */
+.sent-emails-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.sent-emails-container h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #1e1e2d;
+}
+
+/* Table for Sent Emails */
+.sent-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.sent-table th,
+.sent-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sent-table th {
+    background-color: #f3f4f6;
+    font-weight: bold;
+    color: #333;
+}
+
+.sent-table tr:hover {
+    background-color: #f9fafc;
+    transition: background 0.2s ease-in-out;
+}
+
+/* Subject Links */
+.sent-table a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sent-table a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==== Responsive Design ==== */
+@media (max-width: 768px) {
+    th:nth-child(3),
+    td:nth-child(3) {
+        display: none; /* hide date column on smaller screens */
+    }
+}
